@@ -1,0 +1,41 @@
+﻿@model BirEldeSenUzat.Models.Bagislar
+
+@{
+    ViewBag.Title = "BagisDetayGoster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="ml-3"><strong>Bağış Detay</strong></h2>
+<hr />
+<form class="ml-3" method="post" action="/Bagis/BagisDetayGoster" enctype="multipart/form-data">
+    <input name="id" value="@Model.id" type="hidden" />
+    <div class="form-group">
+        <img src="~/BagisResim/Resimler/@Model.resimadi" width="100" height="100">
+        <div class="col-md-8 ">
+            <p>Resmi değiştirmek istiyorsanız lütfen yeni resim seçiniz.</p>
+            <label>Resim Seç</label>
+            <input name="yeniresimadi" type="file" class="form-control w-75" placeholder="Resim Değiştirmek İçin Yeni Resim Seçiniz">
+        </div>
+        <div class="col-md-8 ">
+            <label>Bağış Başlık</label>
+            <input name="baslik" type="text" class="form-control w-75" value="@Model.Baslik">
+        </div>
+        <div class="col-md-8 ">
+            <label>Bağış Açıklama</label>
+            <textarea rows="2" name="aciklama" type="text" class="form-control w-75">@Model.aciklama</textarea>
+        </div>
+        <div class="form-group">
+            <div class="col-md-8 ">
+                <label>Kategori</label>
+                <select class="form-control w-75" name="KategoriAdi">
+                    @foreach (var item in ViewBag.Kategori)
+                    {
+                        <option>@item</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary ml-2 mb-5">Güncelle</button>
+</form>
+
+

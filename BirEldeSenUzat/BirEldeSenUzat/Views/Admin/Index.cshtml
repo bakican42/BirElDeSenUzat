@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="ml-3"><strong>Ana Sayfa</strong></h2>
+<hr />
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <p>Kategori Sayısı</p>
+
+                        <h3>@ViewBag.kategoriSayisi</h3>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="/Kategori/Kategoriler" class="small-box-footer">Kategoriler <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <p>Bağış Sayısı</p>
+
+                        <h3>@ViewBag.bagisSayisi</h3>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="/Bagis/Bagislar" class="small-box-footer">Bağışlar <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <p>Kullanıcı Sayısı</p>
+
+                        <h3>@ViewBag.kullaniciSayisi</h3>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="/Kullanicilar/Kullanicilar" class="small-box-footer">Kullanıcılar <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

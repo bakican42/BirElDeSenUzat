@@ -1,0 +1,37 @@
+﻿@model BirEldeSenUzat.Models.UlasanElleriniz
+
+@{
+    ViewBag.Title = "UlasanElleriniz";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="ml-3"><strong>Ulaşan Elleriniz Detay</strong></h2>
+<hr />
+<form class="ml-3" method="post" action="/UlasanEller/UlasanElleriniz" enctype="multipart/form-data">
+
+    <input value="@Model.ID" name="id" type="hidden" />
+
+    <input value="@Model.BagisID" name="bagisID" type="hidden" />
+
+    <div class="form-group">
+        <div class="col-md-8 ">
+            @if (Model.BagisAdetMiktari == null)
+            {
+                <label>Ulaşan Bağış Miktarı</label>
+                <input value="" name="BagisAdetMiktari" type="text" class="form-control w-75" placeholder="Bağış Miktar Bilgisi Giriniz." required="">
+            }
+            else
+            {
+                <label>Bir Kişiye Düşen Girilmiş Olan Bağış Miktarı</label>
+                <input value="@Model.BagisAdetMiktari₺" name="BagisAdetMiktari" type="text" class="form-control w-75" required="">
+            }
+        </div>
+
+        <div class="col-md-8 ">
+            <label>Açıklama</label>
+            <textarea rows="2" name="Aciklama" type="text" class="form-control w-75" required="">@Model.Aciklama</textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary ml-2 mb-5">Güncelle</button>
+</form>
+

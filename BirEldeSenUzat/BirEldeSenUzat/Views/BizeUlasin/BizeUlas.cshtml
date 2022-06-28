@@ -1,0 +1,149 @@
+﻿@model PagedList.IPagedList<BirEldeSenUzat.Models.Iletisim>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "BizeUlas";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+
+    function MesajSil(id) {
+
+        if (confirm('İlgili Kayıt Silinsin Mi?')) {
+            var model = {
+                "id": id
+            };
+
+            $.ajax({
+                url: '/BizeUlasin/MesajSil',
+                type: "POST",
+                data: model,
+                success: function (result) {
+                    alert("Mesaj Kaydı Başarıyla Silindi")
+                    location.reload();
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+</script>
+
+
+@helper SureYaz(DateTime tarih)
+{
+    TimeSpan sure = DateTime.Now - tarih;
+
+    if (sure.TotalMilliseconds < 0)
+    {
+        <div class="time-ago"></div>
+
+    }
+    else if (sure.TotalMinutes < 1)
+    {
+        <div class="time-ago">Şimdi</div>
+    }
+    else if (sure.TotalHours < 1)
+    {
+        <div class="time-ago">@sure.Minutes dakika önce gönderildi.</div>
+
+    }
+    else if (sure.TotalDays < 1)
+    {
+        <div class="time-ago">@sure.Hours saat önce gönderildi.</div>
+
+    }
+    else
+    {
+        <div class="time-ago">@tarih.ToString("d.MM.yyyy") tarihinde gönderildi.</div>
+    }
+}
+
+
+
+<h2 class="ml-3"><strong>Bize Ulaşan</strong></h2>
+<hr />
+<div class="col-md-12">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h1 class="card-title"><b>Mesajlarınız</b></h1>
+            <div class="card-tools">
+                <div class="input-group input-group-sm">
+                    <input id="myInput" type="text" class="form-control" placeholder="Kelime girin">
+                    <div class="input-group-append">
+                        <div class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Gönderen</th>
+                            <th scope="col">Mesaj İçeriği</th>
+                            <th scope="col">Gönderim Süresi</th>
+                            <th scope="col">Seçim Türü</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><a href="read-mail.html">@item.AdSoyad</a></td>
+                                <td>
+
+                                    @if (item.MesajIcerigi.Length > 70)
+                                    {
+                                        <p>@item.MesajIcerigi.Substring(0, 70)...</p>
+                                    }
+                                    else
+                                    {
+                                        @item.MesajIcerigi
+                                    }
+
+                                </td>
+                                <td class="mailbox-date"> @SureYaz(item.Tarih.GetValueOrDefault()) </td>
+                                <td>
+                                    <a name="id" onclick="MesajSil(@item.ID)">
+                                        <button type="submit" class="btn btn-danger">
+                                            Sil
+                                        </button>
+                                    </a>
+                                    <a name="id" href="/BizeUlasin/BizeUlasDetay/@item.ID">
+                                        <button type="submit" class="btn btn-warning ">
+                                            Mesaj İçeriği
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <!-- /.table -->
+            </div>
+            <!-- /.mail-box-messages -->
+        </div>
+    </div>
+</div>
+
+<div style="margin-left:10px">
+    @Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("BizeUlas", new { sayfa }))
+</div>
+

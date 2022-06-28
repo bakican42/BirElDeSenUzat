@@ -1,0 +1,106 @@
+﻿@model PagedList.IPagedList<BirEldeSenUzat.Models.Bagislar>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Bagis";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Content/jquery-3.1.1.min.js"></script>
+<h2 class="ml-3"><strong>Bağışlar</strong></h2>
+<hr />
+<a style="float:right;margin-right:30px" href="/Bagis/BagisOlusturma"><button type="submit" class="btn btn-outline-primary ">Yeni Bağış Ekle</button></a>
+<input class="form-control ml-5" style="width:500px;margin-left:10px" id="myInput" type="text" placeholder="Lütfen aramak istediğiniz başlık adını giriniz" aria-label="Search">
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Resim</th>
+            <th scope="col">Başlık</th>
+            <th scope="col">Açıklama</th>
+            <th scope="col">Kategori</th>
+            <th scope="col">Oluşturan kullanıcı</th>
+            <th scope="col">Tarih</th>
+            <th scope="col">Seçim Türü</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><img src="~/BagisResim/Resimler/@item.resimadi" width="80" height="80" /></td>
+                <td>@item.Baslik</td>
+                <td>
+
+                    @if (item.aciklama.Length > 30)
+                    {
+                        <p>@item.aciklama.Substring(0, 30)...</p>
+                    }
+                    else
+                    {
+                        @item.aciklama
+                    }
+
+                </td>
+                <td>@item.Kategori.kategori_ad</td>
+                <td>@item.Kullanici.AdSoyad</td>
+                <td>@item.OlusturulmaTarihi.Value.Date.ToString().TrimEnd('0', ':')</td>
+
+                <td>
+                    <a id="txtName" onclick="BagisSilme(@item.id)"><button type="submit" class="btn btn-danger">Sil</button></a>
+                    <a href="/Bagis/BagisDetayGoster/@item.id"><button type="submit" class="btn btn-info ">Detay Göster</button></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+<script>
+    function BagisSilme(id) {
+
+        if (confirm('İlgili Bağış Kaydı Silinsin Mi?')) {
+            var model = {
+                "id": id
+            };
+
+            $.ajax({
+                url: '/Bagis/BagisSil',
+                type: "POST",
+                data: model,
+                success: function (result) {
+                    alert("Bağış Kaydı Başarıyla Silindi")
+                    location.reload();
+                }
+            });
+
+        }
+    }
+</script>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+
+                alert("@ViewBag.Message");
+                document.getElementById("txtName").value= "@ViewBag.Message";
+        };
+    </script>
+
+}
+<div style="margin-left:10px">
+    @Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Bagislar", new { sayfa }))
+</div>
+

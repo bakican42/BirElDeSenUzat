@@ -1,0 +1,98 @@
+﻿@model PagedList.IPagedList<BirEldeSenUzat.Models.KullaniciRol>
+
+@using PagedList;
+@using PagedList.Mvc;
+@using BirEldeSenUzat.Models;
+@{
+    ViewBag.Title = "Kullanicilar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+<script>
+    function KullaniciSilme(id) {
+        if (confirm('İlgili Kullanici Kaydı Silinsin Mi?')) {
+            var model = {
+                "id": id
+            };
+
+            $.ajax({
+                url: '/Kullanicilar/KullaniciSil',
+                type: "POST",
+                data: model,
+                success: function (result) {
+                    alert("Kullanici Kaydı Başarıyla Silindi")
+                    location.reload();
+                }
+            });
+
+        }
+    }
+</script>
+
+<h2 class="ml-3"><strong>Kullanıcılar</strong></h2>
+<hr />
+
+<input class="form-control ml-2" style="width:500px;margin-left:10px" id="myInput" type="text" placeholder="Lütfen aramak istediğiniz kullanıcı bilgisini giriniz" aria-label="Search">
+
+<br />
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Kullanıcı Listesi</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Kullanıcı Türü</th>
+                                <th>Adı Soyadı</th>
+                                <th>E-Posta</th>
+                                <th>Telefon</th>
+                                <th>Cinsiyet</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Seçim Türü</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Rol.RolAdi</td>
+                                    <td>@item.Kullanici.AdSoyad</td>
+                                    <td>@item.Kullanici.Mail</td>
+                                    <td>@item.Kullanici.TelNo</td>
+                                    <td>@item.Kullanici.Cinsiyet</td>
+                                    <td>@item.Kullanici.KayitTarihi</td>
+                                    <td>
+                                        <a name="id" onclick="KullaniciSilme(@item.KullaniciID)"><button type="submit" class="btn btn-danger">Sil</button></a>
+                                        <a name="id" href="/Kullanicilar/KullaniciDetay/@item.KullaniciID"><button type="submit" class="btn btn-info ">Detay Göster</button></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div style="margin-left:10px">
+    @Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Kullanicilar", new { sayfa }))
+</div>

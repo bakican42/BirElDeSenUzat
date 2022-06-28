@@ -1,0 +1,124 @@
+﻿@model IEnumerable<BirEldeSenUzat.Models.Sepet>
+
+@{
+    ViewBag.Title = "Sepetim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Content/jquery-3.1.1.min.js"></script>
+
+<script>
+    function UrunMiktarArtir(id) {
+        var model = {
+            "id": id
+        };
+
+        $.ajax({
+            url: '/Kullanici/MiktarArtir',
+            type: "POST",
+            data: model,
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+    function UrunMiktarAzalt(id) {
+        var model = {
+            "id": id
+        };
+
+        $.ajax({
+            url: '/Kullanici/MiktarAzalt',
+            type: "POST",
+            data: model,
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+    function BagisiSepettenCikar(id) {
+
+        if (confirm('Ürün sepetten çıkarılsın mı?')) {
+            var model = {
+                "id": id
+            };
+
+            $.ajax({
+                url: '/Kullanici/BagisiSepettenCikar',
+                type: "POST",
+                data: model,
+                success: function (result) {
+                    alert("Ürün sepetten başarıyla silindi.")
+                    location.reload();
+                }
+            });
+        }
+    }
+</script>
+
+<head>
+    <style>
+        td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<hr />
+<div class="container">
+    <br />
+    <h2 class="text-center">Sepetinizde @ViewBag.BagisSayisi Adet Ürün Bulunmaktadır.</h2>
+    <br />
+    <table class="table table-hover table-bordered table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-center">Bağış Resmi</th>
+                <th class="text-center">Bağış Başlık</th>
+                <th class="text-center">Bağış Miktar</th>
+                <th class="text-center">Bağış Adeti</th>
+                <th class="text-center">Bağış Toplam</th>
+                <th class="text-center">Sepetten Çıkar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="text-align:center">
+                    <td><img src="~/BagisResim/Resimler/@item.Bagislar.resimadi" width="80" height="80" /> </td>
+                    <td>@item.Bagislar.Baslik</td>
+                    <td>@item.Miktar TL</td>
+                    <td class="text-center">
+                        <a onclick="UrunMiktarArtir(@item.Id)" class="btn btn-xs btn-success">
+                            <span class="bi bi-plus-lg"></span>
+                        </a>
+
+                        <input type="text" style="width:42px; height:38px; text-align:center;" value="@item.UrunSayisi" />
+
+                        <a onclick="UrunMiktarAzalt(@item.Id)" class="btn btn-xs btn-danger">
+                            <span class="bi bi-dash-lg"></span>
+                        </a>
+                    </td>
+                    <td>@item.Toplam TL</td>
+                    <td class="text-center">
+                        <a onclick="BagisiSepettenCikar(@item.Id)" class="btn btn-danger btn-sm">
+                            <span class="bi bi-x-lg"></span>
+                            Sepetten Çıkar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+        <span>Toplam Bağış: @Model.Sum(i => i.Toplam) TL</span>
+    </div>
+    @if (ViewBag.BagisSayisi != 0)
+    {
+        <div class="d-flex justify-content-end mb-5 mt-3">
+            <a href="/Odeme/Index">
+                <button class="btn btn-success" type="button">Bağışı Tamamla</button>
+            </a>
+        </div>
+    }
+</div>
+
+
+

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BirEldeSenUzat.Models.Sepet>
+
+@using BirEldeSenUzat.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    IhtiyacDB context = new IhtiyacDB();
+
+    var toplam = context.Sepets.Where(x => x.OdemeTamamlandiMi == false).Sum(i => i.Toplam);
+
+}
+
+<script src="~/Content/jquery-3.1.1.min.js"></script>
+<script src="~/Content/jquery.mask.min.js"></script>
+
+<head>
+    <script type="text/javascript">
+        $(function () {
+            $('#card_numarasi').mask("9999 9999 9999 9999");
+            $('#son_kullanma_tarihi').mask("99/99");
+            $('#cvv').mask("999");
+        });
+    </script>
+</head>
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <a href="/Kullanici/Sepetim" class="text-success"><strong>< Sepetini Düzenle</strong></a>
+        </div>
+        @if (Model != null)
+        {
+            <div class="col-4">
+                <span style="float:right;">
+
+                    <i class="bi-cart-fill me-1 text-success"></i><strong class="text-success">
+                        Sepet Tutarı : @toplam TL
+                    </strong><strong class="text-success"> </strong>
+                </span>
+            </div>
+        }
+    </div>
+</div>
+<hr />
+<div class="container">
+    <br />
+    <h2 class="text-center text-success">Ödeme Bilgilerinizi Girin</h2>
+    <form class="row g-3" method="get" action="/Odeme/MailGonder">
+        <input type="hidden" value="@toplam" name="tutar" />
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-md-auto" style="height: auto; border: 1px #DCDCDC solid; border-radius: 20px;">
+                <div class="mt-5" style="font-size:x-large; color:green">
+                    <i class="bi bi-credit-card-fill" style="color: green;"></i>
+                    <a>KART BİLGİSİ</a>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <input name="kartNo" id="card_numarasi" type="text" class="form-control" placeholder="Kart Numarası">
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <input id="son_kullanma_tarihi" type="text" class="form-control" placeholder="Son Kul. Tarihi">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="cvv" type="text" class="form-control" placeholder="CVV">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 mb-3">
+                            <button type="submit" class="btn btn-success w-100 mt-4">Ödeme Yap</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<br />
+

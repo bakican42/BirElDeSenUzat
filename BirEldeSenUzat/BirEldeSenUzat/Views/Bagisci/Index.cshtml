@@ -1,0 +1,138 @@
+﻿@model PagedList.IPagedList<BirEldeSenUzat.Models.Sepet>
+
+@using PagedList;
+@using PagedList.Mvc;
+@using BirEldeSenUzat.Models;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    IhtiyacDB context = new IhtiyacDB();
+    string girisYapankullanici = User.Identity.Name;
+    var kullaniciID = context.Kullanicis.Where(x => x.AdSoyad == girisYapankullanici).Select(x => x.KullaniciID).FirstOrDefault();
+
+    var toplam = context.Sepets.Where(x => x.OdemeTamamlandiMi == true && x.KullaniciId == kullaniciID).Sum(i => i.Toplam);
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<hr />
+<h2>@TempData["Mesaj"]</h2>
+<section class="mb-3">
+    <div class="container">
+        <div class="row">
+            <!-- ======= sol taraf ======= -->
+            <div class="col-4" style="height: 300px; border: 1px #DCDCDC solid; border-radius: 20px; ">
+                <div class="mt-4">
+                    <!-- ======= bağışlarım ======= -->
+                    <a href="/Bagisci/Index"><button class="btn btn-success w-100" style="width: 190px;" type="button"><i class="bi bi-heart" style="float:left"></i>BAĞIŞLARIM</button></a>
+                    <hr />
+                    <!-- ======= hesap ayarları ======= -->
+                    <div class="btn-group dropend" style="width:190px;">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear-fill" style="float:left"></i>
+                            HESAP AYARLARI
+                        </button>
+                        <ul class="dropdown-menu" style="width:170px;">
+                            <!-- ======= temel bilgiler ======= -->
+                            <li style="margin:2px;">
+                                <a href="/Bagisci/TemelBilgiler">
+                                    <button class="btn btn-success" style="width:160px; margin-left:2px;" type="button">
+                                        <i class="bi bi-person" style="float:left;"></i>
+                                        Temel Bilgiler
+                                    </button>
+                                </a>
+                            </li>
+                            <!-- ======= iletişim bilgileri ======= -->
+                            <li style="margin:2px;">
+                                <a href="/Bagisci/iletisimBilgileri">
+                                    <button class="btn btn-success" style="width:160px; margin-left:2px;" type="button">
+                                        <i class="bi bi-person" style="float:left;"></i>
+                                        İletişim Bilgileri
+                                    </button>
+                                </a>
+                            </li>
+                            <!-- ======= konum bilgileri ======= -->
+                            <li style="margin:2px;">
+                                <a href="/Bagisci/KonumBilgileri">
+                                    <button class="btn btn-success" style="width:160px; margin-left:2px;" type="button">
+                                        <i class="bi bi-person" style="float:left;"></i>
+                                        Konum Bilgileri
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr />
+                    <!-- ======= şifre değiştir ======= -->
+                    <a href="/Bagisci/sifredegistir">
+                        <button class="btn btn-success" style="width:190px;" type="button">
+                            <i class="bi bi-lock-fill" style="float:left;"></i>
+                            ŞİFRE DEĞİŞTİR
+                        </button>
+                    </a>
+                    <hr />
+                </div>
+                <!-- ======= çıkış yap======= -->
+                <a href="/Kullanici/CikisYap">
+                    <button class="btn btn-success w-100" type="button">
+                        <i class="bi bi-power"></i>
+                        ÇIKIŞ YAP
+                    </button>
+                </a>
+            </div>
+            <!-- ======= Bağışlarım ======= -->
+            <div class="col-5" style="width:auto; height: auto; border: 1px #DCDCDC solid; border-radius: 20px; width: 700px; margin-left: 60px;">
+                <div class="row mt-3">
+                    <div class="col-6 text-success" style="font-size:20px;">
+                        <strong><i class="bi bi-person" style="float:left;"></i>Bağışlarım</strong>
+                    </div>
+                    <div class="col-6 text-success" style="font-size:20px;">
+                        <strong style="float:right;">Toplam Bağış : ₺ @toplam</strong>
+                    </div>
+                </div>
+                <hr />
+                <table class="table table-hover" style="border: 1px #DCDCDC solid;">
+                    <thead>
+                        <tr class="text-success text-center">
+                            <th scope="col" class="text-center">Bağış Başlık</th>
+                            <th scope="col">Bağış Tarihi</th>
+                            <th scope="col">Bağış Tutarı</th>
+                            <th scope="col" class="text-center">Bağış Makbuzu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <input type="hidden" name="id" value="@item.BagisId" />
+                            <tr class="text-center">
+                                <td>@item.Bagislar.Baslik</td>
+                                <td>@item.Tarih.Value.Date.ToString().TrimEnd('0', ':')</td>
+                                <td>₺@item.Toplam</td>
+                                <td><a href="/Bagisci/MakbuzDetay/@item.BagisId">Detay</a></td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div style="margin-left:10px;color:green">
+                    @Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+

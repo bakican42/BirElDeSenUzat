@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "BagisYap";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="ml-3"><strong>Bağış Oluştur</strong></h2>
+<hr />
+<form method="post" action="/Bagis/BagisOlusturma" class="ml-3" enctype = "multipart/form-data">
+    <div class="form-group">
+        <div class="col-md-8 ">
+            <label>Resim Seç</label>
+            <input name="resimadi" type="file" class="form-control w-75" placeholder="Resim Ekle" required>
+        </div>
+    </div>  
+    <div class="form-group">
+        <div class="col-md-8 ">
+            <label>Bağış Başlık</label>
+            <input name="Baslik" type="text" class="form-control w-75" placeholder="Başlık Bilgisi">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-8 ">
+            <label>Bağış Açıklama</label>
+            <textarea rows="2" name="aciklama" type="text" class="form-control w-75"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-8 ">
+            <label>Kategori</label>
+            <select class="form-control w-75" name="KategoriAdi">
+                @foreach (var item in ViewBag.Kategoriler)
+                {
+                    <option>@item</option>
+                }
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary ml-2">Yeni Bağış Ekle</button>
+</form>
+
+
+

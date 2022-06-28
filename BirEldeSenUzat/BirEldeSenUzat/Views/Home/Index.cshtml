@@ -1,0 +1,225 @@
+﻿@model IEnumerable<BirEldeSenUzat.Models.Bagislar>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<!-- ======= Slider ======= -->
+<section id="hero">
+    <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+        <div class="carousel-inner" role="listbox">
+            <!-- Slide 1 -->
+            <div class="carousel-item active" style="background-image: url('../../Green/assets/img/slide/slide-1.jpg');">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown">Hoş Geldiniz</h2>
+                        <p class="animate__animated animate__fadeInUp">Bir El De Sen Uzat</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item" style="background-image: url('../../Green/assets/img/slide/slide-2.jpg')">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown">Kış Kapıda</h2>
+                        <p class="animate__animated animate__fadeInUp">Yalnız Bırakma</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-item" style="background-image: url('../../Green/assets/img/slide/slide-3.jpg')">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown">Ramazan'ı Yaşat</h2>
+                        <p class="animate__animated animate__fadeInUp">Ramazan'ı yaşamak iyiliği ve paylaşmayı anlamaktır. Bu Ramazan'ı da kalplerimizde ve hanelerimizde yaşayalım, insanlık için berekete vesile olalım.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+    </div>
+</section>
+<!-- ======= Bağışlarımız ======= -->
+<section id="services" class="about">
+    <div class="container">
+        <div class="section-title">
+            <h2>Bağışlarımız</h2>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-4 mt-4">
+                    <div class="card h-100 text-center">
+                        <img style="border:2px solid" class="rounded-circle mx-auto d-block mt-4" width="250" height="250" src="~/BagisResim/Resimler/@item.resimadi">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>@item.Baslik</strong></h5><hr />
+                            <p class="card-text">@item.aciklama</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!-- ======= Takım ======= -->
+<!--<section id="portfolio" class="team section-bg">
+    <div class="container">
+        <div class="section-title">
+            <h2>Takım</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="member">
+                    <img src="~/Green/assets/img/team/tatlıcı başı.jpeg" alt="">
+                    <h4>Ali Erol</h4>
+                    <span>Tatlıcı Başı</span>
+                    <p>
+                        yönetici hakkında ne iş yaptığı ile ilgili kısa bilgi
+                    </p>
+                    <div class="social">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="member">
+                    <img src="~/Green/assets/img/team/cio2.jpeg" alt="">
+                    <h4>Baki CAN</h4>
+                    <span>Bağış Müdürü</span>
+                    <p>
+                        yönetici hakkında ne iş yaptığı ile ilgili kısa bilgi
+                    </p>
+                    <div class="social">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="member">
+                    <img src="~/Green/assets/img/team/cio2.jpeg" alt="">
+                    <h4>İbrahim ÖZDEN</h4>
+                    <span>CTO</span>
+                    <p>
+                        yönetici hakkında ne iş yaptığı ile ilgili kısa bilgi
+                    </p>
+                    <div class="social">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="member">
+                    <img src="~/Green/assets/img/team/cio2.jpeg" alt="">
+                    <h4>İbrahim ÖZDEN</h4>
+                    <span>CTO</span>
+                    <p>
+                        yönetici hakkında ne iş yaptığı ile ilgili kısa bilgi
+                    </p>
+                    <div class="social">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="member">
+                    <img src="~/Green/assets/img/team/cio2.jpeg" alt="">
+                    <h4>İbrahim ÖZDEN</h4>
+                    <span>CTO</span>
+                    <p>
+                        yönetici hakkında ne iş yaptığı ile ilgili kısa bilgi
+                    </p>
+                    <div class="social">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="member">
+                    <img src="~/Green/assets/img/team/cio2.jpeg" alt="">
+                    <h4>İbrahim ÖZDEN</h4>
+                    <span>CTO</span>
+                    <p>
+                        yönetici hakkında ne iş yaptığı ile ilgili kısa bilgi
+                    </p>
+                    <div class="social">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>-->
+<!-- ======= Hakkımızda ======= -->
+<section id="about" class="about">
+    <div class="container">
+        <div class="section-title">
+            <h2>HAKKIMIZDA</h2>
+            <p>
+                Bir El De Sen Uzat Yardım Vakfı; bölge, din, dil, ırk ve mezhep ayrımı yapmaksızın Türkiyenin herhangi bir yerinde sıkıntıya düşmüş, felakete uğramış, zulüm görmüş,
+                aç ve açıkta kalmış; savaş, tabii afet gibi sebeplerle mağdur olmuş, yaralanmış, sakat kalmış; evsiz, yurtsuz, tüm insanlara insani yardım ulaştırmak ve bu insanların temel hak ve hürriyetlerinin ihlal edilmesini önlemek üzere 2022 yılından bu yana çalışmaktadır.
+                Gönüllü faaliyetlerle başlayan ve 2022 yılında kurumsallaşan bu çalışmalar kısa sürede 81 şehre yayılmış ve tüm şehirlere ulaşan bir hayır köprüsü olmuştur.
+            </p>
+            <br />
+            <h2>MİSYONUMUZ</h2>
+            <p>
+                Yeryüzünde adaletin ve iyiliğin hâkim olması için evrensel kardeşlik bilinciyle nerede olursa olsun muhtaç ve mazlum tüm insanlara ihtiyaç duydukları insani yardımı ulaştırarak onurlu bir yaşam sunmak.
+                İnsanı yardıma muhtaç hâle getiren ve mazlum eden her türlü politika ve faaliyetleri önlemek üzere tüm insanların temel hak ve hürriyetlerinin ihlal edilmemesi için gerekli çalışmaları yapmak.
+                Değişen dünyada değişmeyen değerlerin yaşatılmasını sağlamak.
+                İyiliği her zaman her yerde yaşatmak.
+            </p>
+            <br />
+            <h2>VİZYONUMUZ</h2>
+            <p>
+                Savaş ve doğal afetlerin sebep olduğu olumsuzluklar giderilerek bireylere ve toplumlara kendi ayakları üzerinde durabilmeleri için destek olmak.
+                Tüm dünyada yardımlaşma alanında öncülük ederek ülkeler ve kurumlar arasında iş birliğini geliştirip ortak bilinç oluşturmak.
+                Yardıma muhtaç duruma düşmüş toplumların kişi ve kuruluşlarını güçlendirmek.
+                Kriz anında en az zarar için en hızlı ve etkin şekilde bölgeye ulaşmak.
+                Kalıcı projelerle kalıcı çözümler üretmek.
+                Yoksulluğun giderilmesine ve sosyal adaletin sağlanmasına katkı sağlamak.
+            </p>
+            <br />
+            <h2>Çalışma İlkelerimiz</h2>
+            <p>
+                Öncü olmak.
+                Toplumlar arasında köprü olmak.
+                Hakem olmak.
+                Mazlumun sesi olmak.
+                Sömürünün olmadığı adil bir dünyanın yeniden inşasına katkıda bulunmak.
+                Emaneti en uygun şekilde kullanmak.
+                Şeffaf olmak.
+                Markayı ya da ismi değil hizmeti öne çıkarmak.
+                Din, dil, ırk, mezhep ayrımı yapmadan yardım etmek.
+            </p>
+        </div>
+    </div>
+</section>
+@{
+    Html.RenderAction("UlasanEllerWidget", "Home");
+}
+
+
+

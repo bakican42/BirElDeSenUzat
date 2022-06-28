@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BirEldeSenUzat.Models.Bagislar>
+
+@{
+    ViewBag.Title = "BagisYap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr />
+<!-- ======= Bağışlarımız ======= -->
+
+
+<section id="services" class="about">
+    <div class="container">
+        <h2 style="text-align:center">Bağışlarımız</h2>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-4 mt-4">
+                    <div class="card h-100 text-center">
+                        <img style="border:2px solid" class="rounded-circle mx-auto d-block mt-4" width="250" height="250" src="~/BagisResim/Resimler/@item.resimadi">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>@item.Baslik</strong></h5><hr />
+                            <div class="row ">
+                                <form method="post" action="/Kullanici/Sepetim">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input name="bagisMiktari" class="form-control" placeholder="Tutar Giriniz" />
+                                            <input name="bagisId" value="@item.id" type="hidden" />
+                                        </div>
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-success ">Sepete Ekle</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+    
+

@@ -1,0 +1,171 @@
+﻿@model BirEldeSenUzat.Models.Sepet
+
+@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <input value="@Model.KullaniciId" type="hidden" name="id" />
+
+    <script src="~/Content/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var saniye = 500;//Sayılacak sayı belirtiliyor
+            var sayacYeri = $("#Sayac");
+
+            $.sayimiBaslat = function () {
+                if (saniye > 1) {
+                    saniye--;
+                    sayacYeri.text(saniye);
+                } else {
+                    $(location).attr('href', '/Odeme/Index/') //Yönlendirme adresimiz Belirtiliyor.
+                }
+            }
+
+            sayacYeri.text(saniye);
+            setInterval("$.sayimiBaslat()", 1000); //Sayı kaç saniyede bir eksileceği belirtiliyor
+
+        });
+
+    </script>
+
+    <p>@ViewBag.Uyari</p>
+
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Ödeme Ekranı</title>
+        <link href="~/Green/assets/img/favicon.png" rel="icon">
+        <link href="~/Green/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+        <link href="~/Green/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+        <link href="~/Green/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="~/Green/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="~/Green/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+        <link href="~/Green/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+        <link href="~/Green/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+        <link href="~/Green/assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row" style="height:100vh;">
+                <form method="post" action="/Odeme/OdemeEkranı">
+                    <div class="col-md-12 my-auto">
+                        <div class="mx-auto mt-3 mb-3" style="width: 800px; height: auto; border: 1px #DCDCDC solid; background: #f2f2f2; ">
+                            <div class="row mt-3">
+                                <!-- ======= BANKA LOGO ======= -->
+                                <div class="col">
+                                    <p class="mt-2 fs-3" style="color:red; margin-left:20px;"><strong>AKBANK</strong></p>
+                                </div>
+                                <!-- ======= 3D SECURE ======= -->
+                                <div class="col text-center">
+                                    <span><strong>Uluslararası Güvenlik<br />Platformu 3D Secure</strong></span>
+                                </div>
+                                <!-- ======= MASTERCARD LOGO ======= -->
+                                <div class="col text-end">
+                                    <img style="width:80px; height:50px; margin-right:20px;" src="~/Green/assets/img/team/mastercard.png" />
+                                </div>
+                            </div>
+                            <div class="col align-self-center mt-5">
+                                <!-- ======= İŞYERİ ADI ======= -->
+                                <div class="row">
+                                    <div class="col">
+                                        <label style="margin-left:260px;">
+                                            <strong>
+                                                İşyeri Adı
+                                            </strong>
+                                        </label>
+                                    </div>
+                                    <div class="col">
+                                        <label>Bir El De Sen Uzat</label>
+                                    </div>
+                                </div>
+                                <!-- ======= TUTAR ======= -->
+                                <div class="row">
+                                    <div class="col">
+                                        <label style="margin-left:260px;">
+                                            <strong>
+                                                Tutar
+                                            </strong>
+                                        </label>
+                                    </div>
+                                    <div class="col">
+                                        <label>@Session["Tutar"] TL</label>
+                                    </div>
+                                </div>
+                                <!-- ======= TARİH VE SAAT ======= -->
+                                <div class="row">
+                                    <div class="col">
+                                        <label style="margin-left:260px;"><strong>Tarih</strong></label>
+                                    </div>
+                                    <div class="col">
+                                        <label>@Session["Tarih"]</label>
+                                    </div>
+                                </div>
+                                <!-- ======= KART NUMARASI ======= -->
+                                <div class="row">
+                                    <div class="col">
+                                        <label style="margin-left:260px;"><strong>Kart Numarası</strong></label>
+                                    </div>
+                                    <div class="col">
+                                        <label>@Session["KartNumarasi"]</label>
+                                    </div>
+                                </div>
+                                <!-- ======= CEP TELEFONU ======= -->
+                                <div class="row">
+                                    <div class="col">
+                                        <label style="margin-left:260px;"><strong>Cep Telefonu</strong></label>
+                                    </div>
+                                    <div class="col">
+                                        <label>@Session["TelNo"]</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ======= İCON ======= -->
+                            <div class="row mt-5">
+                                <div class="col text-center">
+                                    <img src="~/Green/assets/img/team/messaging.png" />
+                                </div>
+                            </div>
+                            <!-- ======= 3D ŞİFRE ======= -->
+                            <div class="row">
+                                <span class="text-center mt-5">
+                                    <strong>
+                                        02 nolu 3D Secure / Go Güvenli Öde<br />şifrenizi şifre alanına giriniz.
+                                    </strong>
+                                </span>
+                            </div>
+                            <!-- ======= ŞİFRE ======= -->
+                            <div class="row mt-5">
+                                <div class="col-5 text-end">
+                                    <label><strong>Şifre :</strong></label>
+                                </div>
+                                <div class="col-6">
+
+                                    <input name="kod" type="text" class="form-control form-control-sm w-50" />
+                                </div>
+                            </div>
+                            <!-- ======= SAYAÇ ======= -->
+                            <div class="row text-center mt-5">
+                                <span style="color:red;"><strong>Onaylama süresinin dolmasına <a id="Sayac"></a> saniye<br />kalmıştır</strong></span>
+                            </div>
+                            <!-- ======= DEVAM BUTON ======= -->
+                            <div class="row mt-5 mb-5">
+                                <div class="col text-center">
+                                    <button type="submit" class="btn w-50" style="border-radius: 20px; background:red; color:white;">Devam</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+}

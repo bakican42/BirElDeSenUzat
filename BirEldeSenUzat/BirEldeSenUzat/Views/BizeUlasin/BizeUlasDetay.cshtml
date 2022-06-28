@@ -1,0 +1,29 @@
+﻿@model BirEldeSenUzat.Models.Iletisim
+
+@{
+    ViewBag.Title = "BizeUlasDetay";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="ml-3"><strong>Bize Ulaşan</strong></h2>
+<hr />
+<div class="col-md-12">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title">Mesaj İçeriği</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+            <div class="mailbox-read-info">
+                <h5>Mesaj Konusu: @Model.Konu</h5>
+                <h6>
+                    Gönderen: @Model.MailAdresi
+                    <span class="mailbox-read-time float-right">@Model.Tarih</span>
+                </h6>
+            </div>
+            <div class="mailbox-read-message">
+                <p>@Model.MesajIcerigi</p>
+            </div>
+        </div>
+    </div>
+</div>
+

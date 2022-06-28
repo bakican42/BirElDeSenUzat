@@ -1,0 +1,25 @@
+﻿@model BirEldeSenUzat.Models.Kategori
+
+@{
+    ViewBag.Title = "KategoriGuncelle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="ml-3"><strong>Kategori Güncelleme</strong></h2>
+<hr />
+<form method="post" action="/Kategori/KategoriGuncelle" class="ml-3">
+    <input name="id" value="@Model.KategoriID" type="hidden"/>
+    <div class="form-group">
+        <div class="col-md-8 ">
+            <label>Kategori Adı</label>
+            <input name="kategori_ad" type="text" class="form-control w-75" value="@Model.kategori_ad">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-8 ">
+            <label>Kategori Açıklaması</label>
+            <textarea rows="2" name="aciklama" type="text" class="form-control w-75">@Model.aciklama</textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary ml-2">Kategori Güncelle</button>
+</form>
+

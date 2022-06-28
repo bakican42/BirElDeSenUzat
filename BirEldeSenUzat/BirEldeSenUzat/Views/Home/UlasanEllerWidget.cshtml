@@ -1,0 +1,100 @@
+﻿@model  IEnumerable<BirEldeSenUzat.Models.UlasanElleriniz>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    @if( TempData["SuccessMessage"] != null){
+     <text>
+            $(document).ready(function () {
+                swal({
+                    title: "İşleminiz Başarıyla Gerçekleştirildi.",
+                    text: "@TempData["SuccessMessage"]",
+                    icon: "success",
+                    button: "Tamam",
+                });
+            })
+     </text>
+     }
+</script>
+
+<!-- ======= Ulaşan Elleriniz ======= -->
+<section id="portfolio" class="about">
+    <div class="container">
+        <div class="section-title">
+            <h2>Ulaşan Elleriniz</h2>
+        </div>
+        <div class="row">
+            <!-- ======= Öğrenciye Burs ======= -->
+            @foreach (var item in Model)
+            {
+                <div class="col-3">
+                    <div class=" text-center">
+                        <img width="100" height="100" src="~/BagisResim/Resimler/@item.Bagislar.resimadi" />
+                        <h3 style="color: limegreen;"><strong>@item.BagisUlasimSayisi</strong></h3>
+                        <p><strong>@item.Aciklama</strong></p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ======= İletişim ======= -->
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="section-title">
+            <h2>İletişim</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 d-flex align-items-stretch">
+                <div class="info">
+                    <div class="address">
+                        <i class="bi bi-geo-alt"></i>
+                        <h4>Lokasyon:</h4>
+                        <p>Sivas Çelik karşısı, Üçlerbey Mah. Yahyabey cad, Keteci Apt No:30 Merkez, 58058 Merkez/Sivas</p>
+                    </div>
+                    <div class="email">
+                        <i class="bi bi-envelope"></i>
+                        <h4>E-Posta:</h4>
+                        <p>bireldesenuzat@gmail.com</p>
+                    </div>
+                    <div class="phone">
+                        <i class="bi bi-phone"></i>
+                        <h4>Telefon:</h4>
+                        <p>0 212 631 21 21</p>
+                    </div>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3067.8109017741212!2d37.015048619796!3d39.74389834811279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x407eabc7a906da41%3A0xa063fe0cbd69f754!2sBir%20Elde%20Sen%20Uzat%20Derne%C4%9Fi!5e0!3m2!1str!2str!4v1649858792261!5m2!1str!2str" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+                <div class="php-email-form">
+                    <form action="/Home/Iletisim" method="post" role="form">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Adınız</label>
+                                <input type="text" name="AdSoyad" class="form-control" id="name" required>
+                            </div>
+                            <div class="form-group col-md-6 mt-3 mt-md-0">
+                                <label for="name">Mail Adresiniz</label>
+                                <input type="email" class="form-control" name="MailAdresi" id="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="name">Konu</label>
+                            <input type="text" class="form-control" name="Konu" id="subject" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="name">Mesaj</label>
+                            <textarea class="form-control" name="MesajIcerigi" rows="10" required></textarea>
+                        </div>
+
+                        <div class="text-center"><button type="submit">Mesaj Gönder</button></div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+
+@using BirEldeSenUzat.Models;
+
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Ana Sayfa</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link href="~/Green/assets/img/favicon.png" rel="icon">
+    <link href="~/Green/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="~/Green/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/Green/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Green/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Green/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Green/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Green/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="~/Green/assets/css/style.css" rel="stylesheet">
+    <meta http-equiv=Content-type content=text/html; charset=UTF-8 />
+</head>
+<body>
+    <!-- ======= Top Bar ======= -->
+    <section id="topbar" class="d-flex align-items-center">
+        <div class="container d-flex justify-content-center justify-content-md-between">
+            <!-- ======= Telefon ve Mail ======= -->
+            <div class="contact-info d-flex align-items-center">
+                <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">bireldesenuzat@gmail.com</a>
+                <i class="bi bi-phone-fill phone-icon"></i> 0 212 631 21 21
+            </div>
+            <!-- ======= Sosyal Medya ======= -->
+            <div class="social-links d-none d-md-block">
+                <a href="https://twitter.com/" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="https://tr-tr.facebook.com/" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/?hl=tr" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="https://www.youtube.com/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="https://tr.linkedin.com/" class="youtube"><i class="bi bi-youtube"></i></a>
+            </div>
+        </div>
+    </section>
+    <!-- ======= Header ======= -->
+    <header id="header" class="d-flex align-items-center">
+        <div class="container d-flex align-items-center">
+            <!-- .logo -->
+            <h1 class="logo me-auto">
+                <a href="/Home/Index"><img src="~/Green/assets/img/team/logo.jpeg" /></a>
+            </h1>
+            <!-- .navbar -->
+            <nav id="navbar" class="navbar">
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        IhtiyacDB context = new IhtiyacDB();
+
+                        string girisYapankullanici = User.Identity.Name;
+                        var kullanici = context.Kullanicis.Where(x => x.AdSoyad == girisYapankullanici).FirstOrDefault();
+                        var sepet = context.Sepets.Where(x => x.KullaniciId == kullanici.KullaniciID && x.OdemeTamamlandiMi == false).ToList();
+                        ViewBag.BagisSayisi = sepet.Count();
+
+                        if (User.IsInRole("Bagisci"))
+                        {
+                            <li><a class="nav-link scrollto active" href="/Home/Index/#hero">Ana Sayfa</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#services">Bağışlarımız</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#about">Hakkımızda</a></li>
+                            <li><a class="nav-link scrollto " href="/Home/Index/#portfolio">Ulaşan Elleriniz</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#contact">İletişim</a></li>
+                            <li>
+                                <a href="/Bagisci/Index">@User.Identity.Name</a>
+                            </li>
+                            <li>
+                                <a href="/Bagisci/BagisYap">
+                                    <button class="btn btn-success" type="button">Bağış Yap</button>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Kullanici/Sepetim">
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="bi-cart-fill me-1"></i>
+                                        <span class="badge bg-white text-success ms-1 rounded-pill">@ViewBag.BagisSayisi</span>
+                                    </button>
+                                </a>
+                            </li>
+                        }
+                        else if (User.IsInRole("Gonullu"))
+                        {
+                            <li><a class="nav-link scrollto active" href="/Home/Index/#hero">Ana Sayfa</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#services">Bağışlarımız</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#about">Hakkımızda</a></li>
+                            <li><a class="nav-link scrollto " href="/Home/Index/#portfolio">Ulaşan Elleriniz</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#contact">İletişim</a></li>
+                            <li>
+                                <a href="/Gonullu/Index">@User.Identity.Name</a>
+                            </li>
+                            <li>
+                                <a href="/Kullanici/CikisYap">
+                                    <button class="btn btn-success w-100" type="button">Çıkış Yap</button>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a class="nav-link scrollto active" href="/Home/Index/#hero">Ana Sayfa</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#services">Bağışlarımız</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#about">Hakkımızda</a></li>
+                            <li><a class="nav-link scrollto " href="/Home/Index/#portfolio">Ulaşan Elleriniz</a></li>
+                            <li><a class="nav-link scrollto" href="/Home/Index/#contact">İletişim</a></li>
+                            <li>
+                                <a class="getstarted scrollto" href="/Admin/Index">Admin Paneli</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li><a class="nav-link scrollto active" href="#hero">Ana Sayfa</a></li>
+                        <li><a class="nav-link scrollto" href="#services">Bağışlarımız</a></li>
+                        <li><a class="nav-link scrollto" href="#about">Hakkımızda</a></li>
+                        <li><a class="nav-link scrollto " href="#portfolio">Ulaşan Elleriniz</a></li>
+                        <li><a class="nav-link scrollto" href="#contact">İletişim</a></li>
+                        <li><a class="getstarted scrollto" href="/Kullanici/GirisYap">Giriş Yap</a></li>
+                        <li class="dropdown">
+                            <a class="getstarted scrollto" href="#">Üye Ol</a>
+                            <ul>
+                                <li><a style="margin-left:1px;" class="getstarted mb-2" href="/Bagisci/UyeOl">Bağışcı Hesabı <i style="font-size:30px" class="bi bi-person"></i></a></li>
+                                <li><a style="margin-left:1px;" class="getstarted" href="/Gonullu/UyeOl">Gönüllü Hesabı <i style="font-size:30px" class="bi bi-person"></i></a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <h3>BİR EL DE SEN UZAT</h3>
+            <p>Eller Çok Olunca, Yükler Hafifleşir.</p>
+            <div class="social-links">
+                <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="https://tr-tr.facebook.com/" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="https://www.instagram.com/?hl=tr" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="https://www.youtube.com/" class="youtube"><i class="bx bxl-youtube"></i></a>
+                <a href="https://tr.linkedin.com/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; Copyright <strong><span>Bir El De Sen Uzat</span></strong>
+            </div>
+            <div class="credits">
+                Designed by <strong><span>Baki CAN</span></strong>
+            </div>
+        </div>
+    </footer>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <script src="~/Green/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Green/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Green/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Green/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/Green/assets/vendor/php-email-form/validate.js"></script>
+    <script src="~/Green/assets/js/main.js"></script>
+</body>
+</html>
+
+

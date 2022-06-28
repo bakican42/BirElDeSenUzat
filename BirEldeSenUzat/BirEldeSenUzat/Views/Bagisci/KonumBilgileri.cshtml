@@ -1,0 +1,145 @@
+﻿@model BirEldeSenUzat.Models.Kullanici
+
+@{
+    ViewBag.Title = "KonumBilgileri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Content/jquery-3.1.1.min.js"></script>
+<hr />
+<section class="mb-3">
+    <div class="container">
+        <div class="row">
+            <!-- ======= sol taraf ======= -->
+            <div class="col-4" style="height: 300px; border: 1px #DCDCDC solid; border-radius: 20px; ">
+                <div class="mt-4">
+                    <!-- ======= bağışlarım ======= -->
+                    <a href="/Bagisci/Index"><button class="btn btn-success w-100" style="width: 190px;" type="button"><i class="bi bi-heart" style="float:left"></i>BAĞIŞLARIM</button></a>
+                    <hr />
+                    <!-- ======= hesap ayarları ======= -->
+                    <div class="btn-group dropend" style="width:190px;">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear-fill" style="float:left"></i>
+                            HESAP AYARLARI
+                        </button>
+                        <ul class="dropdown-menu" style="width:170px;">
+                            <li style="margin:2px;">
+                                <a href="/Bagisci/TemelBilgiler">
+                                    <button class="btn btn-success" style="width:160px; margin-left:2px;" type="button">
+                                        <i class="bi bi-person" style="float:left;"></i>
+                                        Temel Bilgiler
+                                    </button>
+                                </a>
+                            </li>
+                            <li style="margin:2px;">
+                                <a href="/Bagisci/iletisimBilgileri">
+                                    <button class="btn btn-success" style="width:160px; margin-left:2px;" type="button">
+                                        <i class="bi bi-person" style="float:left;"></i>
+                                        İletişim Bilgileri
+                                    </button>
+                                </a>
+                            </li>
+                            <li style="margin:2px;">
+                                <a href="/Bagisci/KonumBilgileri">
+                                    <button class="btn btn-success" style="width:160px; margin-left:2px;" type="button">
+                                        <i class="bi bi-person" style="float:left;"></i>
+                                        Konum Bilgileri
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr />
+                    <!-- ======= şifre değiştir ======= -->
+                    <a href="/Bagisci/sifredegistir">
+                        <button class="btn btn-success" style="width:190px;" type="button">
+                            <i class="bi bi-lock-fill" style="float:left;"></i>
+                            ŞİFRE DEĞİŞTİR
+                        </button>
+                    </a>
+                    <hr />
+                </div>
+                <!-- ======= çıkış yap======= -->
+                <button class="btn btn-success w-100" type="button">
+                    <i class="bi bi-power"></i>
+                    ÇIKIŞ YAP
+                </button>
+            </div>
+            <!-- ======= Konum bilgileri ======= -->
+            <div class="col-5" style="height:auto; border: 1px #DCDCDC solid; border-radius: 20px; width: 700px; margin-left: 60px;">
+                <form class="row g-3" method="post" action="/Bagisci/KonumBilgileri">
+                    <input name="id" value="@Model.KullaniciID" type="hidden" />
+                    <div class="mt-5" style="margin-left:20px; font-size:x-large; color:green">
+                        <i class="bi bi-person" style="color: green;"></i>
+                        <a>Konum Bilgileri</a>
+                    </div>
+                    <hr />
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Şehir</label>
+                        @if (Model.SehirId == null)
+                        {
+                            @Html.DropDownList("SehirId", ViewBag.Sehirler as SelectList, "--Şehir Adını Seçiniz--", new { @class = "form-select", @Name = "SehirId" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.SehirId, ViewBag.Sehirler as SelectList, "--Şehir Adını Seçiniz--", new { @class = "form-select", @Name = "SehirId" })
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">İlçe</label>
+                        @if (Model.ilceId == null)
+                        {
+                            @Html.DropDownList("ilceId", new SelectList(" "), "--İlçe Adını Seçiniz--", new { @class = "form-select", @Name = "ilceId" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.ilceId, ViewBag.ilceler as SelectList, "--İlçe Adını Seçiniz--", new { @class = "form-select", @Name = "ilceId" })
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Mahalle</label>
+                        @if (Model.SemtMahId == null)
+                        {
+                            @Html.DropDownList("SemtMahId", new SelectList(" "), "--Mahalle Adını Seçiniz--", new { @class = "form-select", @Name = "SemptId", })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.SemtMahId, ViewBag.SempMah as SelectList, "--Mahalle Adını Seçiniz--", new { @class = "form-select", @Name = "SemptId" })
+                        }
+                    </div>
+                    <div class="col-md-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Açık Adresi</label>
+                        <textarea name="AdresDetay" class="form-control" id="exampleFormControlTextarea1" rows="3">@Model.AdresDetay</textarea>
+                    </div>
+                    <div class="col-md-7 mb-3">
+                        <button type="submit" class="btn btn-success w-50">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("#SehirId").change(function () {
+            $.get("/Bagisci/İlceGetir", { SehirId: $("#SehirId").val() }, function (data) {
+                $("#ilceId").empty();
+                $.each(data, function (index, row) {
+                    $("#ilceId").append("<option value='" + row.ilceId + "'>" + row.IlceAdi + "</option>")
+                });
+            });
+        })
+    });
+
+    $(document).ready(function () {
+        $("#ilceId").change(function () {
+            $.get("/Bagisci/SemtGetir", { ilceId: $("#ilceId").val() }, function (data) {
+                $("#SemtMahId").empty();
+                $.each(data, function (index, row) {
+                    $("#SemtMahId").append("<option value='" + row.SemtMahId + "'>" + row.MahalleAdi + "</option>")
+                });
+            });
+        })
+    });
+</script>
+

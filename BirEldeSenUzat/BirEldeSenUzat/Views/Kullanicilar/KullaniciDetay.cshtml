@@ -1,0 +1,62 @@
+﻿@model PagedList.IPagedList<BirEldeSenUzat.Models.Sepet>
+
+@using PagedList;
+@using PagedList.Mvc;
+@using BirEldeSenUzat.Models;
+@{
+    ViewBag.Title = "KullaniciDetay";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<br />
+<div class="row">
+    <div class="col-8">
+        <h2 class="ml-3"><strong>Kullanıcı Detay Bilgisi</strong></h2>
+    </div>
+    <div class="col-4">
+        <br /><h5><strong>Toplam Yapılan Bağış Miktarı: @ViewBag.sepetTutari TL</strong></h5>
+    </div>   
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr style="text-align:center">
+            <th scope="col">Bağış Görsel</th>
+            <th scope="col">Bağış Adı</th>
+            <th scope="col">Toplam Bağış Tutarı</th>
+            <th scope="col">Bağış Tarihi</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        @foreach (var item in Model)
+        {
+            <tr style="text-align:center">
+                <td><img src="~/BagisResim/Resimler/@item.Bagislar.resimadi" width="80" height="80" /></td>
+                <td>@item.Bagislar.Baslik</td>
+                <td>@item.Toplam TL</td>
+                <td>@item.Tarih.Value.Date.ToString().TrimEnd('0', ':')</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div style="margin-left:10px">
+    @Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("KullaniciDetay", new { sayfa }))
+</div>
+
+
+
+
+

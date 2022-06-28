@@ -1,0 +1,310 @@
+﻿@model BirEldeSenUzat.Models.Kullanici
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Content/jquery-3.1.1.min.js"></script>
+<script src="~/Content/jquery.mask.min.js"></script>
+
+<head>
+    <script type="text/javascript">
+        $(function () {
+            $('#tc_no').mask("99999999999");
+
+        });
+    </script>
+</head>
+
+<hr />
+<section>
+    <div class="container">
+        <form class="row g-3" method="post" action="/Gonullu/Index">
+            <div class="row justify-content-md-center mt-5">
+                <!-- Hesap Ayarları -->
+                <div class="col-md-auto w-50" style="height: auto; border: 1px #DCDCDC solid; border-radius: 20px;">
+                    <div class="mt-5" style="margin-left:20px; font-size:x-large; color:green">
+                        <i class="bi bi-gear-fill" style="color: green;"></i>
+                        <a>Hesap Ayarları</a>
+                    </div>
+                    <hr />
+                    <nav>
+                        <!-- Hesap Ayarları -->
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <!-- temel bilgiler -->
+                            <button style="color:green;" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                                Temel Bilgiler
+                            </button>
+                            <!-- iletişim bilgileri -->
+                            <button style="color:green;" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                İletişim Bilgileri
+                            </button>
+                            <!-- konum bilgileri -->
+                            <button style="color:green;" class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+                                Konum Bilgileri
+                            </button>
+                        </div>
+                    </nav>
+                    <div class="tab-content mt-3" id="nav-tabContent">
+                        <!-- temel bilgiler -->
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <input name="id" value="@Model.KullaniciID" type="hidden" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="inputEmail4" class="form-label">Adı Soyadı</label>
+                                    <input name="AdSoyad" type="text" value="@Model.AdSoyad" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputEmail4" class="form-label">Cinsiyeti</label>
+
+                                    @if (Model.Cinsiyet == null)
+                                    {
+                                        <select class="form-select" name="Cinsiyet">
+                                            <option>Seçiniz</option>
+                                            <option>Erkek</option>
+                                            <option>Kadın</option>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        if (Model.Cinsiyet == "Erkek")
+                                        {
+                                            <select class="form-select" name="Cinsiyet">
+                                                <option>@Model.Cinsiyet</option>
+                                                <option>Kadın</option>
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            <select class="form-select" name="Cinsiyet">
+                                                <option>@Model.Cinsiyet</option>
+                                                <option>Erkek</option>
+                                            </select>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    @*@if (Model.DogumTarihi == null)
+                                        {
+                                            <label for="start" class="form-label">Doğum Tarihi</label>
+                                            <input name="DogumTarihi" type="date" class="form-control">
+                                        }
+                                        else
+                                        {
+                                            <label for="start" class="form-label">Doğum Tarihi</label>
+                                            <input name="DogumTarihi" type="text" class="form-control" value="@Model.DogumTarihi.Value.Date.ToString().TrimEnd('0', ':')">
+                                        }*@
+                                    <label for="start" class="form-label">Doğum Tarihi</label>
+                                    @Html.TextBoxFor(model => model.DogumTarihi, "{0:yyyy-MM-dd}", new { @type = "date", @Name = "DogumTarihi", @class = "form-control" })
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputPassword4" class="form-label">Kimlik No</label>
+                                    <input id="tc_no" name="TCNo" type="text" value="@Model.TCNo" class="form-control" placeholder="Kimlik Numaranız">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <button type="submit" class="btn btn-success w-100 mt-4">Kaydet</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- iletişim bilgileri -->
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <input name="id" type="hidden" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="inputPassword4" class="form-label">Telefon</label>
+                                    <input name="TelNo" type="text" class="form-control" value="@Model.TelNo" id="inputPassword4">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputPassword4" class="form-label">E-Posta</label>
+                                    <input name="Mail" type="text" class="form-control" value="@Model.Mail" id="inputPassword4">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3 mt-3">
+                                <button type="submit" class="btn btn-success w-100">Kaydet</button>
+                            </div>
+                        </div>
+                        <!-- konum bilgileri -->
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <input name="id" value="@Model.KullaniciID" type="hidden" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="inputEmail4" class="form-label">Şehir</label>
+                                    @if (Model.SehirId == null)
+                                    {
+                                        @Html.DropDownList("SehirId", ViewBag.Sehirler as SelectList, "--Şehir Adını Seçiniz--", new { @class = "form-select", @Name = "SehirId" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => model.SehirId, ViewBag.Sehirler as SelectList, "--Şehir Adını Seçiniz--", new { @class = "form-select", @Name = "SehirId" })
+                                    }
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputEmail4" class="form-label">İlçe</label>
+                                    @if (Model.ilceId == null)
+                                    {
+                                        @Html.DropDownList("ilceId", new SelectList(" "), "--İlçe Adını Seçiniz--", new { @class = "form-select", @Name = "ilceId" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => model.ilceId, ViewBag.ilceler as SelectList, "--İlçe Adını Seçiniz--", new { @class = "form-select", @Name = "ilceId" })
+                                    }
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mt-3">
+                                    <label for="inputEmail4" class="form-label">Mahalle</label>
+                                    @if (Model.SemtMahId == null)
+                                    {
+                                        @Html.DropDownList("SemtMahId", new SelectList(" "), "--Mahalle Adını Seçiniz--", new { @class = "form-select", @Name = "SemptId", })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => model.SemtMahId, ViewBag.SempMah as SelectList, "--Mahalle Adını Seçiniz--", new { @class = "form-select", @Name = "SemptId" })
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Açık Adresi</label>
+                                <textarea name="AdresDetay" class="form-control" id="exampleFormControlTextarea1" rows="3">@Model.AdresDetay</textarea>
+                            </div>
+                            <div class="col-md-12 mb-3 mt-3">
+                                <button type="submit" class="btn btn-success w-100">Kaydet</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Gönüllü Ayarları -->
+                <!--<div class="row justify-content-md-center mt-5">
+                    <div class="col-md-auto w-50" style="height:auto; border: 1px #DCDCDC solid; border-radius: 20px;">-->
+                @*<input name="id" value="@Model.KullaniciID" type="hidden" />*@
+                <!--<div class="mt-5" style="margin-left:20px; font-size:x-large; color:green">
+                            <i class="bi bi-heart-fill" style="color: green;"></i>
+                            Gönüllü Ayarları
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="inputEmail4" class="form-label">Gönüllülük Durumu</label>
+                                <select class="form-select" name="Cinsiyet">
+                                    <option>Seçiniz</option>
+                                    <option>Aktif Olarak Çalışmalara Katılabilir</option>
+                                    <option>Kısmen Çalışmalara Destek Verebilir</option>
+                                    <option>Şu Anda Aktif Olarak Destek Veremiyor</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="inputEmail4" class="form-label">Sağlayabileceğiniz Katkılar</label>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                        First checkbox
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                        Second checkbox
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                        Third checkbox
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                        Fourth checkbox
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                        Fifth checkbox
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12 mb-3">
+                                <button type="submit" class="btn btn-success w-100 mt-4">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <!-- Şifre Değiştir -->
+                <div class="row justify-content-md-center mt-5">
+                    <div class="col-md-auto w-50" style="height: auto; border: 1px #DCDCDC solid; border-radius: 20px;">
+                        @*<input name="id" value="@Model.KullaniciID" type="hidden" />*@
+                        <div class="mt-5" style="margin-left:20px; font-size:x-large; color:green">
+                            <i class="bi bi-lock-fill" style="color: green;"></i>
+                            <a>Şifre Değiştir</a>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Eski Şifre</label>
+                                @*<p class="text-danger">@TempData["Mesaj1"]</p>*@
+                                <input name="EskiParola" type="text" class="form-control" id="inputPassword4">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            @*<p style="text-align:center" class="text-danger">@TempData["Mesaj"]</p>*@
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Yeni Şifre</label>
+                                <input name="Parola" type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Yeni Şifre (Tekrar)</label>
+                                <input name="YeniParola" type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <button type="submit" class="btn btn-success w-100 mt-4">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("#SehirId").change(function () {
+            $.get("/Bagisci/İlceGetir", { SehirId: $("#SehirId").val() }, function (data) {
+                $("#ilceId").empty();
+                $.each(data, function (index, row) {
+                    $("#ilceId").append("<option value='" + row.ilceId + "'>" + row.IlceAdi + "</option>")
+                });
+            });
+        })
+    });
+
+    $(document).ready(function () {
+        $("#ilceId").change(function () {
+            $.get("/Bagisci/SemtGetir", { ilceId: $("#ilceId").val() }, function (data) {
+                $("#SemtMahId").empty();
+                $.each(data, function (index, row) {
+                    $("#SemtMahId").append("<option value='" + row.SemtMahId + "'>" + row.MahalleAdi + "</option>")
+                });
+            });
+        })
+    });
+</script>
+
+@if (TempData["Mesaj"] != null)
+{
+    <script type="text/javascript">
+        alert("@TempData["Mesaj"]");
+            window.onload = function () {
+                document.getElementById("txtName").value = "@TempData["Mesaj"]";
+        };
+    </script>
+
+}
+
+
+
+
+

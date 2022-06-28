@@ -1,0 +1,83 @@
+﻿@using BirEldeSenUzat.Models;
+
+@{
+    IhtiyacDB context = new IhtiyacDB();
+    var bagislar = context.UlasanEllerinizs.Where(x => x.Bagislar.Status == false).ToList();
+}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/Content/jquery-3.1.1.min.js"></script>
+
+<script>
+    function BagisGetir() {
+        var id = $('#BagisID').val();
+
+        var model = {
+            "id": id
+        };
+
+        $.ajax({
+            url: '/UlasanEller/BagisBilgiGetir',
+            type: "POST",
+            data: model,
+            success: function (result) {
+                //  alert(result);
+
+                var tableResult = " <table class='table table-striped'><thead><tr><th scope='col'>Bagis Resim</th><th scope='col'>Bagis Adi</th><th scope='col'>Toplam Bağış Tutarı</th><th scope='col'>Bağış Ulaşım Sayısı</th><th scope='col'>Açıklama</th><th scope='col'>Eylem</th> </tr></thead><tbody>";
+
+                for (i = 0; i < result.length; ++i) {
+
+                    tableResult += "<tr>";
+                    tableResult += '<td><img src="/BagisResim/Resimler/' + result[i].resim_adi + '" width="80" height="80"></td>';
+                    tableResult += "<td><a>" + result[i].bagis_aciklama + "</a></td>";
+                    tableResult += "<td><a>" + result[i].bagisTutarSayisi + "₺</a></td>";
+                    if (result[i].bagisAdetMiktari != null) {
+                        tableResult += "<td><a>" + result[i].bagisUlasimSayisi + " kişiye bağış yapıldı.</a></td>";
+                    }
+                    else {
+                        tableResult += "<td><a>Bir kişiye düşen bağış miktarını girmelisiniz!!!</a></td>";
+                    }
+                    if (result[i].aciklama != null) {
+                        if (result[i].aciklama.length > 15) {
+                            tableResult += "<td><a>" + result[i].aciklama.substring(0, 15) + "...</a></td>";
+                        }
+                        else {
+                            tableResult += "<td><a>" + result[i].aciklama + "</a></td>";
+                        }
+                    }
+                    else {
+                        tableResult += "<td><a>" + result[i].aciklama + "</a></td>";
+                    }
+                    tableResult += "<td><a name = 'bagisID' href='/UlasanEller/UlasanElleriniz/" + result[i].bagisID + "'><button type='button' class='btn btn-success'>Detay Göster</button></a></td>";
+                    tableResult += "</tr>";
+                }
+
+
+                tableResult += "</tbody></table>";
+                $("#BelgeGetir").html(tableResult);
+            }
+        });
+    }
+</script>
+
+<h2 class="ml-3"><strong>Ulaşan Elleriniz</strong></h2>
+<hr />
+
+<div class="form-group">
+    <select class="form-control w-50 ml-5 mb-4" onchange="BagisGetir()" name="BagisID" id="BagisID">
+        <option>Bağış Türünü Seçiniz</option>
+        @foreach (var item in bagislar)
+        {
+            <option value="@item.BagisID">@item.Bagislar.Baslik</option>
+        }
+    </select>
+</div>
+<hr />
+
+<div id="BelgeGetir"></div>
+
+
